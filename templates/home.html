@@ -1,0 +1,205 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Hero Section -->
+<section id="home" class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Yahya S. Abdallah</h1>
+                <h2 class="hero-subtitle">Software Engineer</h2>
+                <div class="cta-container">
+                    <a href="#projects" class="cta-button">View Projects</a>
+                    <a href="#contact" class="cta-button secondary">Contact Me</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="avatar-placeholder">
+                    <!-- Add your professional photo here -->
+                     <img src="{%static 'img/profil.jpeg'%}" alt="Yahya S. Abdallah" class="avatar">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section about-section">
+    <div class="container">
+        <h2 class="section-title">Professional Profile</h2>
+        <div class="about-grid">
+            <div class="about-card">
+                <h3>Experience</h3>
+                <p>1+ Year Backend Development</p>
+                <ul class="experience-list">
+                    {% for job in experience %}
+                    <li>
+                        <strong>{{ job.title }}</strong> 
+                        <p>{{ job.description }}</p>
+                        </li>
+                        {% endfor %}
+                </ul>
+
+            </div>
+            
+            <div class="about-card">
+                <h3>Education</h3>
+                <p>BSc Computer Science</p>
+                <p>Suez Canal University</p>
+                <p class="education-dates">2023-2027</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Certifications Section -->
+<section id="certifications" class="section certifications-section">
+    <div class="container">
+        <h2 class="section-title">Professional Certifications</h2>
+        <div class="certifications-grid">
+            {% for cert in certification %}
+            <div class="certification-card">
+                <div class="certification-image">
+                    <img src="{{ cert.img.url }}" alt="{{ cert.title }}" loading="lazy">
+                </div>
+                <div class="certification-content">
+                    <h3>{{ cert.title }}</h3>
+                    <p>{{ cert.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<!-- Skills Section -->
+<section id="skills" class="section skills-section">
+    <div class="container">
+        <h2 class="section-title">Technical Expertise</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>Backend Development</h3>
+                <ul class="skill-list">
+                    {% for skill in backendSkills %}
+                    <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="skill-category">
+                <h3>Machine Learning</h3>
+                <ul class="skill-list">
+                    {% for skill in mlSkills %}
+                    <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="skill-category">
+                <h3>Other Technologies</h3>
+                <ul class="skill-list">
+                    {% for skill in otherSkills %}
+                    <li>{{ skill }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="section projects-section">
+    <div class="container">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card">
+                <h3>{{project.title}}</h3>
+                <p class="project-description">
+                    {{ project.description }}
+                </p>
+                <div class="project-links">
+                    <a href="#" class="project-link primary">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a>
+                    <a href="#" class="project-link secondary">
+                        <i class="fab fa-github"></i> Source Code
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section contact-section">
+    <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <div class="contact-header">
+                    <h3>Direct Contact</h3>
+                    <p>Always available for interesting projects</p>
+                </div>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-item-content">
+                            <h4>Email</h4>
+                            <a href="mailto:yahyasabdallah21@gmail.com">yahyasabdallah21@gmail.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div class="contact-item-content">
+                            <h4>Phone</h4>
+                            <a href="tel:+201286200127">+20 128 620 0127</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="contact-item-content">
+                            <h4>Location</h4>
+                            <p>Suez Canal University<br>Ismailia, Egypt</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-wrapper">
+                {% if messages %}
+                <div class="alert-container">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        <i class="fas fa-check-circle"></i>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <form method="POST" action="{% url 'send_email' %}" class="contact-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
